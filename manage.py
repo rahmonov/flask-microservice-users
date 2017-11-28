@@ -3,6 +3,7 @@ import unittest
 from flask_script import Manager
 from project import create_app, db
 from project.api.models import User
+from flask_migrate import MigrateCommand
 
 COV = coverage.coverage(
     branch=True,
@@ -57,6 +58,8 @@ def seed_db():
     db.session.add(User(username='michael', email="michael@realpython.com"))
     db.session.add(User(username='michaelherman', email="michael@mherman.org"))
     db.session.commit()
+
+manager.add_command('db', MigrateCommand)
 
 
 if __name__ == '__main__':

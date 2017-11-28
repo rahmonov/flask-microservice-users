@@ -48,3 +48,14 @@ class TestUserModel(BaseTestCase):
         self.assertTrue(user.password)
         self.assertTrue(user.active)
         self.assertTrue(user.created_at)
+
+    def test_encode_auth_token(self):
+        user = add_user('justatest', 'test@test.com', 'test')
+        auth_token = user.encode_auth_token(user.id)
+        self.assertTrue(isinstance(auth_token, bytes))
+
+    def test_decode_auth_token(self):
+        user = add_user('justatest', 'test@test.com', 'test')
+        auth_token = user.encode_auth_token(user.id)
+        self.assertTrue(isinstance(auth_token, bytes))
+        self.assertTrue(User.decode_auth_token(auth_token), user.id)
